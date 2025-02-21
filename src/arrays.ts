@@ -90,13 +90,11 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
+    const equation: String = addends.length > 0 ? addends.join("+") : "0";
     return (
         addends.reduce((totalSum: number, num: number) => totalSum + num, 0) +
         "=" +
-        addends.reduce(
-            (totalString: String, num: number) => totalString + "+" + num,
-            "",
-        )
+        equation
     );
 }
 
@@ -110,5 +108,13 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const stopVal: number = values.findIndex((num: number): boolean => num < 0);
+    const sumPos = values
+        .slice(0, stopVal === -1 ? values.length : stopVal)
+        .reduce((sum: number, num: number) => sum + num, 0);
+    const newArr = [...values];
+    stopVal !== -1 ?
+        newArr.splice(stopVal + 1, 0, sumPos)
+    :   newArr.push(sumPos);
+    return newArr;
 }
