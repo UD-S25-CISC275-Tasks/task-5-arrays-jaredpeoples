@@ -112,9 +112,11 @@ export function injectPositive(values: number[]): number[] {
     const sumPos = values
         .slice(0, stopVal === -1 ? values.length : stopVal)
         .reduce((sum: number, num: number) => sum + num, 0);
-    const newArr = [...values];
-    stopVal !== -1 ?
-        newArr.splice(stopVal + 1, 0, sumPos)
-    :   newArr.push(sumPos);
-    return newArr;
+    return stopVal !== -1 ?
+            [
+                ...values.slice(0, stopVal + 1),
+                sumPos,
+                ...values.slice(stopVal + 1),
+            ]
+        :   [...values, sumPos];
 }
